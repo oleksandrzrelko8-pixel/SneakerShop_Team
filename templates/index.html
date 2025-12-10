@@ -25,3 +25,37 @@
     </div>
 </div>
 {% endblock %}
+{% extends "base.html" %}
+
+{% block content %}
+<div class="bg-gray-900 rounded-3xl p-10 md:p-20 text-center text-white mb-16 shadow-2xl relative overflow-hidden">
+    <div class="relative z-10">
+        <h1 class="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight">Krosy.ua</h1>
+        <p class="text-xl md:text-2xl text-gray-300 mb-10 max-w-2xl mx-auto">
+            Оригінальні кросівки, які змінять твій стиль. Нова колекція вже в наявності.
+        </p>
+        <a href="/catalog" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-10 rounded-full transition duration-300 transform hover:scale-105 shadow-lg">
+            Перейти до каталогу
+        </a>
+    </div>
+    <div class="absolute top-0 left-0 w-full h-full opacity-20 bg-[url('https://images.unsplash.com/photo-1556906781-9a412961d28c?w=1200&q=80')] bg-cover bg-center"></div>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+    <div class="p-8 bg-white rounded-2xl shadow hover:shadow-md transition">
+        <div class="text-5xl mb-4">🚚</div>
+        <h3 class="text-xl font-bold mb-2">Безкоштовна доставка</h3>
+        <p class="text-gray-600">При замовленні від 3000 грн</p>
+    </div>
+    <div class="p-8 bg-white rounded-2xl shadow hover:shadow-md transition">
+        <div class="text-5xl mb-4">✅</div>
+        <h3 class="text-xl font-bold mb-2">100% Оригінал</h3>
+        <p class="text-gray-600">Ми працюємо офіційно</p>
+    </div>
+    <div class="p-8 bg-white rounded-2xl shadow hover:shadow-md transition">
+        <div class="text-5xl mb-4">🔄</div>
+        <h3 class="text-xl font-bold mb-2">Легке повернення</h3>
+        <p class="text-gray-600">Протягом 14 днів</p>
+    </div>
+</div>
+{% endblock %}

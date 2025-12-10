@@ -3,3 +3,24 @@
   <h1 class="text-3xl font-bold">Про нас</h1>
   <p>Ми команда студентів, що любить кросівки!</p>
 {% endblock %}
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto bg-white p-10 rounded-2xl shadow-lg">
+    <h1 class="text-4xl font-bold text-gray-900 mb-6 text-center">Хто ми є?</h1>
+
+    <p class="text-lg text-gray-700 mb-6 leading-relaxed">
+        <span class="font-bold text-indigo-600">Krosy.ua</span> — це проєкт, створений студентами, які фанатіють від снікер-культури. Ми знаємо, як важко знайти оригінальну пару взуття, тому створили цей магазин.
+    </p>
+
+    <div class="bg-gray-50 border-l-4 border-indigo-500 p-4 mb-6">
+        <p class="italic text-gray-600">"Кросівки — це не просто взуття, це стиль життя."</p>
+    </div>
+
+    <h2 class="text-2xl font-bold mb-4">Наша команда</h2>
+    <ul class="list-disc list-inside text-gray-700 space-y-2">
+        <li>Oleksandr — <span class="text-gray-500">Team Lead & Backend</span></li>
+        <li>Dendera — <span class="text-gray-500">Frontend Master</span></li>
+    </ul>
+</div>
+{% endblock %}

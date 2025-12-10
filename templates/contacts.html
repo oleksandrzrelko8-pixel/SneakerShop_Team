@@ -3,3 +3,38 @@
   <h1 class="text-3xl font-bold">Контакти</h1>
   <p>Наш email: shop@krosy.ua</p>
 {% endblock %}
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <h1 class="text-4xl font-bold text-center mb-10">Зв'яжіться з нами</h1>
+
+    <div class="bg-white p-8 rounded-2xl shadow-lg">
+        <form action="#" class="space-y-6">
+            <div>
+                <label class="block text-gray-700 font-bold mb-2">Ваше ім'я</label>
+                <input type="text" class="w-full px-4 py-3 rounded-lg bg-gray-50 border focus:border-indigo-500 focus:bg-white focus:outline-none" placeholder="Іван">
+            </div>
+
+            <div>
+                <label class="block text-gray-700 font-bold mb-2">Email</label>
+                <input type="email" class="w-full px-4 py-3 rounded-lg bg-gray-50 border focus:border-indigo-500 focus:bg-white focus:outline-none" placeholder="ivan@example.com">
+            </div>
+
+            <div>
+                <label class="block text-gray-700 font-bold mb-2">Повідомлення</label>
+                <textarea class="w-full px-4 py-3 rounded-lg bg-gray-50 border focus:border-indigo-500 focus:bg-white focus:outline-none h-32"></textarea>
+            </div>
+
+            <button type="button" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300">
+                Надіслати
+            </button>
+        </form>
+
+        <div class="mt-8 text-center text-gray-500">
+            <p>📍 м. Київ, вул. Хрещатик, 1</p>
+            <p>📞 +38 (099) 123-45-67</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
