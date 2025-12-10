@@ -1,9 +1,4 @@
 {% extends "base.html" %}
-{% block content %}
-  <h1 class="text-3xl font-bold">Каталог товарів</h1>
-  <p>Тут скоро будуть кросівки.</p>
-{% endblock %}
-{% extends "base.html" %}
 
 {% block content %}
 <div class="text-center mb-12">
@@ -12,78 +7,28 @@
 </div>
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-
-    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300 transform hover:-translate-y-1">
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300">
         <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80" alt="Nike Red" class="w-full h-64 object-cover">
         <div class="p-6">
             <h3 class="text-xl font-bold text-gray-900">Nike Air Max Red</h3>
-            <p class="text-gray-600 text-sm mt-2">Ідеальні для бігу та прогулянок.</p>
-            <div class="flex justify-between items-center mt-4">
-                <span class="text-2xl font-bold text-indigo-600">3 200 ₴</span>
-                <button class="bg-gray-900 text-white px-4 py-2 rounded hover:bg-gray-700 transition">Купити</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300 transform hover:-translate-y-1">
-        <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=600&q=80" alt="Puma" class="w-full h-64 object-cover">
-        <div class="p-6">
-            <h3 class="text-xl font-bold text-gray-900">Puma RS-X</h3>
-            <p class="text-gray-600 text-sm mt-2">Футуристичний дизайн.</p>
-            <div class="flex justify-between items-center mt-4">
-                <span class="text-2xl font-bold text-indigo-600">2 800 ₴</span>
-                <button class="bg-gray-900 text-white px-4 py-2 rounded hover:bg-gray-700 transition">Купити</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300 transform hover:-translate-y-1">
-        <img src="https://images.unsplash.com/photo-1552346154-21d32810aba3?w=600&q=80" alt="Nike Jordan" class="w-full h-64 object-cover">
-        <div class="p-6">
-            <h3 class="text-xl font-bold text-gray-900">Air Jordan 1</h3>
-            <p class="text-gray-600 text-sm mt-2">Класика баскетболу.</p>
-            <div class="flex justify-between items-center mt-4">
-                <span class="text-2xl font-bold text-indigo-600">5 400 ₴</span>
-                <button class="bg-gray-900 text-white px-4 py-2 rounded hover:bg-gray-700 transition">Купити</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300 transform hover:-translate-y-1">
-        <img src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=600&q=80" alt="Nike Green" class="w-full h-64 object-cover">
-        <div class="p-6">
-            <h3 class="text-xl font-bold text-gray-900">Nike Dunk Low</h3>
-            <p class="text-gray-600 text-sm mt-2">Стильні зелені відтінки.</p>
-            <div class="flex justify-between items-center mt-4">
-                <span class="text-2xl font-bold text-indigo-600">4 100 ₴</span>
-                <button class="bg-gray-900 text-white px-4 py-2 rounded hover:bg-gray-700 transition">Купити</button>
-            </div>
+            <span class="text-2xl font-bold text-indigo-600 block mt-2">3 200 ₴</span>
         </div>
     </div>
     
-    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300 transform hover:-translate-y-1">
-        <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=600&q=80" alt="Nike White" class="w-full h-64 object-cover">
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300">
+        <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=600&q=80" alt="Puma" class="w-full h-64 object-cover">
         <div class="p-6">
-            <h3 class="text-xl font-bold text-gray-900">Nike Air Force 1</h3>
-            <p class="text-gray-600 text-sm mt-2">Легендарна модель.</p>
-            <div class="flex justify-between items-center mt-4">
-                <span class="text-2xl font-bold text-indigo-600">3 600 ₴</span>
-                <button class="bg-gray-900 text-white px-4 py-2 rounded hover:bg-gray-700 transition">Купити</button>
-            </div>
+            <h3 class="text-xl font-bold text-gray-900">Puma RS-X</h3>
+            <span class="text-2xl font-bold text-indigo-600 block mt-2">2 800 ₴</span>
         </div>
     </div>
 
-    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300 transform hover:-translate-y-1">
-        <img src="https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=600&q=80" alt="Shoes" class="w-full h-64 object-cover">
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300">
+        <img src="https://images.unsplash.com/photo-1552346154-21d32810aba3?w=600&q=80" alt="Jordan" class="w-full h-64 object-cover">
         <div class="p-6">
-            <h3 class="text-xl font-bold text-gray-900">Urban Street</h3>
-            <p class="text-gray-600 text-sm mt-2">Зручність у кожному кроці.</p>
-            <div class="flex justify-between items-center mt-4">
-                <span class="text-2xl font-bold text-indigo-600">1 900 ₴</span>
-                <button class="bg-gray-900 text-white px-4 py-2 rounded hover:bg-gray-700 transition">Купити</button>
-            </div>
+            <h3 class="text-xl font-bold text-gray-900">Air Jordan 1</h3>
+            <span class="text-2xl font-bold text-indigo-600 block mt-2">5 400 ₴</span>
         </div>
     </div>
-
 </div>
 {% endblock %}
