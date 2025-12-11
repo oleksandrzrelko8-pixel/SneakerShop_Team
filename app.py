@@ -1,22 +1,20 @@
-from flask import Flask, render_template
+from flask import Flask
+from models import init_db
+# Імпортуємо наші нові маршрути
+from routes.main import main
+from routes.feedback import feedback_bp
+from routes.admin import admin_bp
 
 app = Flask(__name__)
 
-@app.route('/')
-def home():
-    return render_template('index.html', title="Головна")
+# Ініціалізуємо БД при запуску
+with app.app_context():
+    init_db()
 
-@app.route('/catalog')
-def catalog():
-    return render_template('catalog.html', title="Каталог")
-
-@app.route('/about')
-def about():
-    return render_template('about.html', title="Про нас")
-
-@app.route('/contacts')
-def contacts():
-    return render_template('contacts.html', title="Контакти")
+# Реєструємо маршрути (Blueprints)
+app.register_blueprint(main)
+app.register_blueprint(feedback_bp)
+app.register_blueprint(admin_bp)
 
 if __name__ == '__main__':
     app.run(debug=True)
