@@ -1,9 +1,7 @@
 from flask import Blueprint, render_template
+from models import get_all_products
 
-# Оголошуємо Blueprint (це наче гілка маршрутів)
 main = Blueprint('main', __name__)
-
-# --- СЮДИ МИ ПЕРЕНЕСЛИ МАРШРУТИ З APP.PY ---
 
 @main.route('/')
 def home():
@@ -11,8 +9,9 @@ def home():
 
 @main.route('/catalog')
 def catalog():
-    # Пізніше ми тут підключимо базу даних, а поки лишаємо як було
-    return render_template('catalog.html', title="Каталог")
+    # Тепер товари беруться з Бази Даних!
+    products = get_all_products()
+    return render_template('catalog.html', title="Каталог", products=products)
 
 @main.route('/about')
 def about():

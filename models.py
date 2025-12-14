@@ -9,7 +9,7 @@ def init_db():
     conn = get_db_connection()
     c = conn.cursor()
     
-    # Створюємо таблицю для відгуків
+    # Таблиця 1: Відгуки
     c.execute('''
         CREATE TABLE IF NOT EXISTS feedback (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -20,7 +20,7 @@ def init_db():
         )
     ''')
     
-    # Створюємо таблицю для товарів (знадобиться пізніше)
+    # Таблиця 2: Товари (Для магазину)
     c.execute('''
         CREATE TABLE IF NOT EXISTS products (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -34,8 +34,7 @@ def init_db():
     conn.commit()
     conn.close()
 
-# --- Функції для роботи з відгуками ---
-
+# --- ВІДГУКИ ---
 def add_feedback(name, email, message, rating):
     conn = get_db_connection()
     conn.execute('INSERT INTO feedback (name, email, message, rating) VALUES (?, ?, ?, ?)',
@@ -54,3 +53,17 @@ def delete_feedback(feedback_id):
     conn.execute('DELETE FROM feedback WHERE id = ?', (feedback_id,))
     conn.commit()
     conn.close()
+
+# --- ТОВАРИ ---
+def add_product(name, price, image, category):
+    conn = get_db_connection()
+    conn.execute('INSERT INTO products (name, price, image, category) VALUES (?, ?, ?, ?)',
+                 (name, price, image, category))
+    conn.commit()
+    conn.close()
+
+def get_all_products():
+    conn = get_db_connection()
+    products = conn.execute('SELECT * FROM products').fetchall()
+    conn.close()
+    return products
