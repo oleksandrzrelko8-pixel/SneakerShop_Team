@@ -87,6 +87,12 @@ def get_product_by_id(product_id):
     conn.close()
     return product
 
+def delete_product(product_id):
+    conn = get_db_connection()
+    conn.execute('DELETE FROM products WHERE id = ?', (product_id,))
+    conn.commit()
+    conn.close()
+
 # --- ЗАМОВЛЕННЯ (НОВЕ) ---
 def create_order(product_id, name, phone):
     conn = get_db_connection()
@@ -107,3 +113,10 @@ def get_all_orders():
     orders = conn.execute(query).fetchall()
     conn.close()
     return orders
+
+# --- ФУНКЦІЯ ДЛЯ ОНОВЛЕННЯ СТАТУСУ ---
+def update_order_status(order_id, new_status):
+    conn = get_db_connection()
+    conn.execute('UPDATE orders SET status = ? WHERE id = ?', (new_status, order_id))
+    conn.commit()
+    conn.close()

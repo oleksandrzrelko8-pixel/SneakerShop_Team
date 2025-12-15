@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, request
-from models import get_all_feedback, delete_feedback, add_product, get_all_products, get_all_orders
+from models import get_all_feedback, delete_feedback, add_product, get_all_products, get_all_orders, update_order_status
 
 admin_bp = Blueprint('admin', __name__)
 
@@ -24,4 +24,11 @@ def admin_panel():
 @admin_bp.route('/admin/delete_feedback/<int:id>')
 def delete_review(id):
     delete_feedback(id)
+    return redirect(url_for('admin.admin_panel'))
+
+
+# НОВИЙ МАРШРУТ ДЛЯ ЗМІНИ СТАТУСУ
+@admin_bp.route('/admin/order/<int:id>/<string:status>')
+def change_status(id, status):
+    update_order_status(id, status)
     return redirect(url_for('admin.admin_panel'))

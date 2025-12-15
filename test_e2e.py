@@ -45,6 +45,21 @@ def run_test():
         else:
             print('No orders found - test failed')
 
+        # 5) Change status to Sent
+        r3 = c.get(f'/admin/order/{latest["id"]}/Sent', follow_redirects=True)
+        print('/admin/order/.../Sent status:', r3.status_code)
+        orders2 = get_all_orders()
+        print('After Sent:', orders2[0]['status'])
+        assert orders2[0]['status'] == 'Sent', 'Status did not update to Sent'
+
+        # 6) Change status to Canceled
+        r4 = c.get(f'/admin/order/{latest["id"]}/Canceled', follow_redirects=True)
+        print('/admin/order/.../Canceled status:', r4.status_code)
+        orders3 = get_all_orders()
+        print('After Canceled:', orders3[0]['status'])
+        assert orders3[0]['status'] == 'Canceled', 'Status did not update to Canceled'
+        print('Status update tests passed')
+
 
 if __name__ == '__main__':
     run_test()
