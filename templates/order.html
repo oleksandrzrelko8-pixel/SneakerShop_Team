@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-md mx-auto bg-white p-8 rounded shadow-lg mt-10">
+    <h1 class="text-2xl font-bold mb-4 text-center">Оформлення замовлення</h1>
+    
+    <div class="mb-6 text-center">
+        <p class="text-gray-600">Ви купуєте:</p>
+        <h2 class="text-xl font-bold text-indigo-600">{{ product['name'] }}</h2>
+        <p class="text-lg font-bold">{{ product['price'] }} грн</p>
+    </div>
+
+    <form method="POST">
+        <div class="mb-4">
+            <label class="block text-gray-700 font-bold mb-2">Ваше ім'я</label>
+            <input type="text" name="name" required class="w-full border p-2 rounded">
+        </div>
+        
+        <div class="mb-4">
+            <label class="block text-gray-700 font-bold mb-2">Телефон</label>
+            <input type="tel" name="phone" placeholder="+380..." required class="w-full border p-2 rounded">
+        </div>
+
+        <button type="submit" class="w-full bg-green-600 text-white font-bold py-2 rounded hover:bg-green-700">
+            Підтвердити замовлення
+        </button>
+    </form>
+</div>
+{% endblock %}

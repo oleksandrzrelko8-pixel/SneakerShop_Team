@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, request
-from models import get_all_feedback, delete_feedback, add_product, get_all_products
+from models import get_all_feedback, delete_feedback, add_product, get_all_products, get_all_orders
 
 admin_bp = Blueprint('admin', __name__)
 
@@ -15,10 +15,11 @@ def admin_panel():
         add_product(name, price, image, category)
         return redirect(url_for('admin.admin_panel'))
 
-    # Показуємо і відгуки, і товари
+    # Показуємо відгуки, товари та замовлення
     reviews = get_all_feedback()
     products = get_all_products()
-    return render_template('admin.html', title="Адмін-панель", reviews=reviews, products=products)
+    orders = get_all_orders()
+    return render_template('admin.html', title="Адмін-панель", reviews=reviews, products=products, orders=orders)
 
 @admin_bp.route('/admin/delete_feedback/<int:id>')
 def delete_review(id):

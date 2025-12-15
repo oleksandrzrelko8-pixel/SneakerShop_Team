@@ -53,5 +53,31 @@
             </tbody>
         </table>
     </div>
+
+    <div class="mt-8 bg-white p-6 rounded shadow">
+        <h2 class="text-xl font-bold mb-4">🛒 Нові замовлення</h2>
+        <table class="w-full text-left">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="p-2">#</th>
+                    <th class="p-2">Товар</th>
+                    <th class="p-2">Клієнт</th>
+                    <th class="p-2">Телефон</th>
+                    <th class="p-2">Статус</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr class="border-b">
+                    <td class="p-2">{{ order['id'] }}</td>
+                    <td class="p-2 font-bold">{{ order['product_name'] }}</td>
+                    <td class="p-2">{{ order['customer_name'] }}</td>
+                    <td class="p-2">{{ order['customer_phone'] }}</td>
+                    <td class="p-2">{{ order['status'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}
