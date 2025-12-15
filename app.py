@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from flasgger import Swagger
 from models import init_db
 from routes.main import main
@@ -7,6 +8,7 @@ from routes.admin import admin_bp
 from routes.api import api_bp
 
 app = Flask(__name__)
+CORS(app)
 
 # Swagger configuration
 swagger_config = {

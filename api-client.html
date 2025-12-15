@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krosy.ua API Client</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Анімація для повідомлень */
+        .toast {
+            transition: all 0.5s ease;
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen p-8">
+
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-8 text-center">
+            <h1 class="text-4xl font-bold text-indigo-600 mb-2">👟 Панель керування товарами</h1>
+            <p class="text-gray-600">Робота з API через Fetch (Лабораторна 6)</p>
+        </header>
+
+        <div id="messageBox" class="fixed top-5 right-5 z-50"></div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <div class="bg-white p-6 rounded-xl shadow-lg h-fit">
+                <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+                    ➕ Додати кросівки
+                </h2>
+                <form id="addForm" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Назва моделі</label>
+                        <input type="text" id="pName" class="w-full border p-2 rounded focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="Nike Air Force" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Ціна (грн)</label>
+                        <input type="number" id="pPrice" class="w-full border p-2 rounded focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="3500" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Категорія</label>
+                        <select id="pCategory" class="w-full border p-2 rounded focus:ring-2 focus:ring-indigo-500 outline-none">
+                            <option value="Running">Бігові</option>
+                            <option value="Casual">Повсякденні</option>
+                            <option value="Basketball">Баскетбольні</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded transition flex justify-center items-center gap-2">
+                        <span>Зберегти</span>
+                        <div id="btnSpinner" class="hidden w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    </button>
+                </form>
+            </div>
+
+            <div class="md:col-span-2">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold">📦 Список на складі</h2>
+                    <button onclick="loadData()" class="text-indigo-600 hover:text-indigo-800 text-sm font-bold">🔄 Оновити</button>
+                </div>
+
+                <div id="dataList" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="col-span-2 text-center text-gray-400 py-10">
+                        Завантаження даних...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://127.0.0.1:5000/api/products'; // Адреса твого API
+
+        // 1. Функція показу повідомлень (успіх/помилка)
+        function showMessage(text, isError = false) {
+            const msgBox = document.getElementById('messageBox');
+            const toast = document.createElement('div');
+            
+            toast.className = `toast show mb-2 px-6 py-3 rounded shadow-lg text-white font-bold flex items-center gap-2 ${isError ? 'bg-red-500' : 'bg-green-500'}`;
+            toast.innerHTML = isError ? `❌ ${text}` : `✅ ${text}`;
+            
+            msgBox.appendChild(toast);
+
+            // Видаляємо через 3 секунди
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 500);
+            }, 3000);
+        }
+
+        // 2. Отримання даних (GET)
+        async function loadData() {
+            const container = document.getElementById('dataList');
+            
+            try {
+                const response = await fetch(API_URL);
+                if (!response.ok) throw new Error('Помилка з\'єднання з сервером');
+                
+                const products = await response.json();
+                
+                // Очищаємо контейнер
+                container.innerHTML = '';
+
+                if (products.length === 0) {
+                    container.innerHTML = '<div class="col-span-2 text-center text-gray-500">Товарів немає. Додайте перший!</div>';
+                    return;
+                }
+
+                // Малюємо картки
+                products.reverse().forEach(product => { // reverse щоб нові були зверху
+                    const card = document.createElement('div');
+                    card.className = 'bg-white p-4 rounded-lg shadow border border-gray-100 hover:shadow-md transition relative group';
+                    card.innerHTML = `
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="text-xs font-bold text-indigo-500 uppercase tracking-wide">${product.category || 'General'}</span>
+                                <h3 class="text-lg font-bold text-gray-800">${product.name}</h3>
+                                <p class="text-gray-600 mt-1">${product.price} грн</p>
+                            </div>
+                            <div class="bg-gray-100 p-2 rounded-full text-gray-400">👟</div>
+                        </div>
+                        <button onclick="deleteProduct(${product.id})" class="absolute top-2 right-2 text-red-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition" title="Видалити">
+                            🗑️
+                        </button>
+                    `;
+                    container.appendChild(card);
+                });
+
+            } catch (error) {
+                container.innerHTML = `<div class="col-span-2 text-center text-red-500 bg-red-50 p-4 rounded">⚠️ Не вдалося завантажити товари: ${error.message}<br>Перевірте, чи запущено Python сервер!</div>`;
+            }
+        }
+
+        // 3. Додавання товару (POST)
+        document.getElementById('addForm').addEventListener('submit', async (e) => {
+            e.preventDefault(); // Щоб сторінка не перезавантажувалась
+            
+            const btn = e.target.querySelector('button');
+            const spinner = document.getElementById('btnSpinner');
+            
+            // Збираємо дані з полів
+            const name = document.getElementById('pName').value;
+            const price = parseFloat(document.getElementById('pPrice').value);
+            const category = document.getElementById('pCategory').value;
+
+            // Блокуємо кнопку
+            btn.disabled = true;
+            spinner.classList.remove('hidden');
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, price, category })
+                });
+
+                if (!response.ok) throw new Error('Сервер повернув помилку');
+
+                const result = await response.json();
+                
+                showMessage(`Товар "${name}" успішно додано!`);
+                e.target.reset(); // Очистити форму
+                loadData(); // Оновити список
+
+            } catch (error) {
+                showMessage(error.message, true);
+            } finally {
+                // Розблокуємо кнопку
+                btn.disabled = false;
+                spinner.classList.add('hidden');
+            }
+        });
+
+        // 4. Видалення товару (DELETE)
+        async function deleteProduct(id) {
+            if(!confirm('Точно видалити цей товар?')) return;
+
+            try {
+                const response = await fetch(`${API_URL}/${id}`, {
+                    method: 'DELETE'
+                });
+                
+                if (response.ok) {
+                    showMessage('Товар видалено');
+                    loadData();
+                } else {
+                    throw new Error('Не вдалося видалити');
+                }
+            } catch (error) {
+                showMessage(error.message, true);
+            }
+        }
+
+        // Запуск при завантаженні сторінки
+        loadData();
+    </script>
+</body>
+</html>
