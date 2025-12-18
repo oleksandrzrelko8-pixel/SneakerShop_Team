@@ -1,11 +1,21 @@
 import sqlite3
+import os
+
+# 👇 ОНОВЛЕНИЙ КОД ДЛЯ ШЛЯХУ ДО БД 👇
+# Якщо ми в Докері, шлях буде в змінній оточення. Якщо ні — просто 'db.sqlite'
+DB_PATH = os.environ.get('DATABASE_PATH', 'db.sqlite')
 
 def get_db_connection():
-    conn = sqlite3.connect('db.sqlite')
+    conn = sqlite3.connect(DB_PATH) # Використовуємо змінну
     conn.row_factory = sqlite3.Row
     return conn
 
 def init_db():
+    # Якщо папки для БД немає — створюємо її (потрібно для Докера)
+    db_dir = os.path.dirname(DB_PATH)
+    if db_dir:
+        os.makedirs(db_dir, exist_ok=True)
+
     conn = get_db_connection()
     c = conn.cursor()
     
