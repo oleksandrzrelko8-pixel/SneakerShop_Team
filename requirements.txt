@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 Flask==2.2.5
 Werkzeug==2.2.3
 flask-cors 
 flasgger
+=======
+flask
+flask-cors
+flasgger
+>>>>>>> 5e71a5a568c516fee2e693d7c1498a9dab5e7604
