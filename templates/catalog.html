@@ -6,7 +6,18 @@
     <p class="text-gray-500 mt-2">Обери свій стиль серед найкращих брендів</p>
 </div>
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <form method="get" class="flex items-center gap-2">
+            <input type="text" name="q" placeholder="Пошук товарів..." value="{{ request.args.get('q', '') }}" class="border p-2 rounded w-64">
+            <button type="submit" class="bg-indigo-600 text-white px-3 py-2 rounded">Пошук</button>
+        </form>
+        <div>
+            <a href="/catalog" class="text-sm text-gray-600 mr-2">Всі</a>
+            <a href="/catalog?category=Running" class="text-sm text-gray-600 mr-2">Running</a>
+            <a href="/catalog?category=Casual" class="text-sm text-gray-600">Casual</a>
+        </div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
     {% for product in products %}
     <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300">
         <img src="{{ product['image'] or 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80' }}" alt="{{ product['name'] }}" class="w-full h-64 object-cover">

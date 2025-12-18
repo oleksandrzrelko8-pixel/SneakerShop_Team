@@ -1,10 +1,15 @@
 from app import app
+# Disable CSRF for tests
+app.config['WTF_CSRF_ENABLED'] = False
 from models import get_all_products, get_all_orders
 
 
 def run_test():
     with app.test_client() as c:
-        # 1) Add a product via admin POST
+        # 1) Login as admin and add a product via admin POST
+        import os
+        resp_login = c.post('/admin/login', data={'password': os.environ.get('ADMIN_PASSWORD', 'admin123')}, follow_redirects=True)
+        print('Login status:', resp_login.status_code)
         resp = c.post('/admin', data={
             'name': 'E2E Shoe',
             'price': '1234.5',

@@ -8,6 +8,9 @@ services:
     restart: always
     environment:
       - DATABASE_PATH=/app/data/shop.db
+      - SECRET_KEY=${SECRET_KEY:-dev-secret}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin123}
+      - ADMIN_TOKEN=${ADMIN_TOKEN:-admin-token}
     volumes:
       - sqlite_data:/app/data  # Зберігаємо БД, щоб не зникала
     healthcheck:

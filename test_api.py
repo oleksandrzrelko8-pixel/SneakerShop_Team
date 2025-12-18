@@ -1,4 +1,6 @@
 from app import app
+# Disable CSRF for test client
+app.config['WTF_CSRF_ENABLED'] = False
 import json
 
 
@@ -8,9 +10,11 @@ def run_api_smoke():
         r = c.get('/api/products')
         print('/api/products GET', r.status_code)
 
-        # 2) POST create product
+        # 2) POST create product (вимагає заголовку X-ADMIN-TOKEN)
+        import os
+        token = os.environ.get('ADMIN_TOKEN', 'admin-token')
         payload = {'name': 'API Shoe', 'price': 777.0, 'category': 'API'}
-        r2 = c.post('/api/products', data=json.dumps(payload), content_type='application/json')
+        r2 = c.post('/api/products', data=json.dumps(payload), content_type='application/json', headers={'X-ADMIN-TOKEN': token})
         print('/api/products POST', r2.status_code, r2.json)
         new_id = r2.json.get('id')
 

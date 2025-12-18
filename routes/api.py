@@ -54,6 +54,10 @@ def api_get_product(id):
 # --- 3. СТВОРЕННЯ ТОВАРУ ---
 @api_bp.route('/api/products', methods=['POST'])
 def api_create_product():
+        # Тільки для адміністраторів: очікуємо X-ADMIN-TOKEN заголовок або іншу зовнішню автентифікацію
+        admin_token = request.headers.get('X-ADMIN-TOKEN')
+        if admin_token != __import__('os').environ.get('ADMIN_TOKEN'):
+            return jsonify({'error': 'Unauthorized'}), 401
         """
         Create a new product
         ---
@@ -93,6 +97,9 @@ def api_create_product():
 # --- 4. ВИДАЛЕННЯ ТОВАРУ ---
 @api_bp.route('/api/products/<int:id>', methods=['DELETE'])
 def api_delete_product(id):
+        admin_token = request.headers.get('X-ADMIN-TOKEN')
+        if admin_token != __import__('os').environ.get('ADMIN_TOKEN'):
+            return jsonify({'error': 'Unauthorized'}), 401
         """
         Delete a product
         ---

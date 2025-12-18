@@ -1,0 +1,7 @@
+[
+  {"name": "Nike Air Zoom Pegasus 38", "price": 3999.0, "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80", "category": "Running"},
+  {"name": "Adidas Ultraboost 21", "price": 4999.0, "image": "https://images.unsplash.com/photo-1528701800489-476f60d8f7bb?w=600&q=80", "category": "Running"},
+  {"name": "Puma Suede Classic", "price": 2499.0, "image": "https://images.unsplash.com/photo-1526178613011-7f0a6f0dfd5b?w=600&q=80", "category": "Casual"},
+  {"name": "New Balance 574", "price": 2999.0, "image": "https://images.unsplash.com/photo-1543165377-6e80e0a74d3d?w=600&q=80", "category": "Casual"},
+  {"name": "Reebok Classic Leather", "price": 2799.0, "image": "https://images.unsplash.com/photo-1542293787937-3d7f9a2e1f4f?w=600&q=80", "category": "Casual"}
+]

@@ -54,6 +54,10 @@ def init_db():
         )
     ''')
     
+    # Індекси для прискорення пошуку/об'єднань
+    c.execute('CREATE INDEX IF NOT EXISTS idx_products_name ON products(name)')
+    c.execute('CREATE INDEX IF NOT EXISTS idx_orders_product ON orders(product_id)')
+
     conn.commit()
     conn.close()
 
