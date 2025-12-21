@@ -1,9 +1,12 @@
 from flask import Blueprint, render_template, request, redirect, url_for
+
+from extensions import csrf
 from models import add_feedback, get_all_feedback
 
 feedback_bp = Blueprint('feedback', __name__)
 
 @feedback_bp.route('/feedback', methods=['GET', 'POST'])
+@csrf.exempt
 def feedback():
     if request.method == 'POST':
         # Отримуємо дані з форми

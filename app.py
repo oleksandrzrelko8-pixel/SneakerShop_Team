@@ -6,10 +6,8 @@ from routes.main import main
 from routes.feedback import feedback_bp
 from routes.admin import admin_bp
 from routes.api import api_bp
-from flask_wtf import CSRFProtect
 
-# Enable CSRF protection for forms
-csrf = CSRFProtect()
+from extensions import csrf
 
 app = Flask(__name__)
 CORS(app)
