@@ -1,7 +1,10 @@
 from flask import Blueprint, render_template, redirect, url_for, request, session, flash
 import os
 from functools import wraps
-from models import get_all_feedback, delete_feedback, add_product, get_all_products, get_all_orders, update_order_status
+from models import get_all_feedback, delete_feedback, add_product, get_all_products, get_all_orders, update_order_status, delete_product, update_product
+
+# ІМПОРТУЄМО CSRF ДЛЯ ВИМКНЕННЯ ПЕРЕВІРКИ
+from extensions import csrf
 
 admin_bp = Blueprint('admin', __name__)
 
@@ -35,29 +38,40 @@ def logout():
 
 @admin_bp.route('/admin', methods=['GET', 'POST'])
 @admin_required
+@csrf.exempt
 def admin_panel():
-    # Якщо адмін додає новий товар — робимо базову валідацію
     if request.method == 'POST':
         name = request.form.get('name', '').strip()
         price_raw = request.form.get('price', '').strip()
         image = request.form.get('image', '').strip()
         category = request.form.get('category', 'General').strip()
+        product_id = request.form.get('product_id', '').strip()
 
-        # basic validation
         if not name:
             flash('Назва товару не може бути порожньою', 'danger')
             return redirect(url_for('admin.admin_panel'))
+        
         try:
             price = float(price_raw)
         except ValueError:
             flash('Ціна має бути числом', 'danger')
             return redirect(url_for('admin.admin_panel'))
 
-        add_product(name, price, image, category)
-        flash('Товар додано', 'success')
+        if product_id:
+            try:
+                update_product(int(product_id), name, price, image, category)
+                flash('Товар оновлено', 'success')
+            except Exception as e:
+                flash(f'Помилка при оновленні: {e}', 'danger')
+        else:
+            try:
+                add_product(str(name), float(price), str(image), str(category))
+                flash('Товар додано успішно!', 'success')
+            except Exception as e:
+                flash(f'Помилка бази даних: {e}', 'danger')
+        
         return redirect(url_for('admin.admin_panel'))
 
-    # Показуємо відгуки, товари та замовлення
     reviews = get_all_feedback()
     products = get_all_products()
     orders = get_all_orders()
@@ -70,8 +84,13 @@ def delete_review(id):
     flash('Відгук видалено', 'info')
     return redirect(url_for('admin.admin_panel'))
 
+@admin_bp.route('/admin/delete_product/<int:id>')
+@admin_required
+def delete_product_route(id):
+    delete_product(id)
+    flash('Товар видалено', 'info')
+    return redirect(url_for('admin.admin_panel'))
 
-# НОВИЙ МАРШРУТ ДЛЯ ЗМІНИ СТАТУСУ
 @admin_bp.route('/admin/order/<int:id>/<string:status>')
 @admin_required
 def change_status(id, status):

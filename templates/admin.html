@@ -1,120 +1,63 @@
 {% extends "base.html" %}
-
 {% block content %}
-<div class="max-w-6xl mx-auto">
-    <div class="flex justify-between items-center mb-8">
-        <h1 class="text-3xl font-bold text-red-600">Адмін-панель</h1>
-        <div class="space-x-2">
-            <a href="/admin/logout" class="text-sm bg-gray-200 px-3 py-2 rounded hover:bg-gray-300">Вихід</a>
-            <a href="/admin" class="text-sm bg-indigo-600 text-white px-3 py-2 rounded hover:bg-indigo-700">Оновити</a>
-        </div>
-    </div>
-
+<div class="max-w-6xl mx-auto p-6">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         
-        <div class="bg-white p-6 rounded shadow">
-            <h2 class="text-xl font-bold mb-4">➕ Додати товар</h2>
-            <form method="POST" action="/admin">
+        <div class="bg-white p-6 rounded shadow border-t-4 border-green-500">
+            <h2 class="text-xl font-bold mb-4 flex items-center">➕ Додати товар</h2>
+            <form action="/admin" method="POST" class="space-y-4">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                <input type="text" name="name" placeholder="Назва кросівок" required class="w-full border p-2 mb-2 rounded">
-                <input type="number" name="price" placeholder="Ціна (грн)" required class="w-full border p-2 mb-2 rounded">
-                <input type="text" name="image" placeholder="URL картинки (https://...)" required class="w-full border p-2 mb-2 rounded">
-                <input type="text" name="category" placeholder="Категорія (Running, Casual)" required class="w-full border p-2 mb-4 rounded">
-                <button type="submit" class="bg-green-600 text-white w-full py-2 rounded hover:bg-green-700">Додати товар</button>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Назва</label>
+                    <input type="text" name="name" placeholder="Назва кросівок" class="w-full p-2 border rounded" required>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Ціна</label>
+                    <input type="number" name="price" placeholder="Ціна (грн)" class="w-full p-2 border rounded" required>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">URL картинки</label>
+                    <input type="text" name="image" placeholder="https://example.com/photo.jpg" class="w-full p-2 border rounded">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Категорія</label>
+                    <input type="text" name="category" placeholder="Наприклад: Nike" class="w-full p-2 border rounded">
+                </div>
+                
+                <button type="submit" class="w-full bg-green-600 text-white py-2 rounded font-bold hover:bg-green-700 transition">
+                    Додати товар
+                </button>
             </form>
         </div>
 
-        <div class="bg-white p-6 rounded shadow overflow-y-auto h-64">
-            <h2 class="text-xl font-bold mb-4">📦 Товари в базі</h2>
-            <ul>
+        <div class="bg-white p-6 rounded shadow border-t-4 border-blue-500">
+            <h2 class="text-xl font-bold mb-4 flex items-center">📦 Товари в базі</h2>
+            <ul class="divide-y divide-gray-200">
                 {% for product in products %}
-                <li class="border-b py-2 flex justify-between">
-                    <span>{{ product['name'] }}</span>
-                    <span class="font-bold">{{ product['price'] }} ₴</span>
+                <li class="py-4 flex justify-between items-center">
+                    <div>
+                        <p class="font-bold text-gray-800 text-lg">{{ product.name or product['name'] }}</p>
+                        <p class="text-green-600 font-bold">{{ product.price or product['price'] }} ₴</p>
+                    </div>
+                    
+                    <div class="flex gap-2">
+                        <a href="/admin/delete_product/{{ product.id or product['id'] }}" 
+                           class="bg-red-600 text-white px-4 py-2 rounded font-bold hover:bg-red-700 transition"
+                           onclick="return confirm('Видалити цей товар?')">
+                           Видалити
+                        </a>
+                    </div>
                 </li>
+                {% else %}
+                <li class="py-4 text-center text-gray-500 italic">Товарів ще немає</li>
                 {% endfor %}
             </ul>
         </div>
-    </div>
 
-    <div class="mt-8 bg-white p-6 rounded shadow">
-        <h2 class="text-xl font-bold mb-4">💬 Відгуки користувачів</h2>
-        <table class="w-full text-left">
-            <thead>
-                <tr class="bg-gray-100">
-                    <th class="p-2">Ім'я</th>
-                    <th class="p-2">Повідомлення</th>
-                    <th class="p-2">Дія</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for review in reviews %}
-                <tr class="border-b">
-                    <td class="p-2 font-bold">{{ review['name'] }}</td>
-                    <td class="p-2">{{ review['message'] }}</td>
-                    <td class="p-2">
-                        <a href="/admin/delete_feedback/{{ review['id'] }}" class="text-red-500 hover:text-red-700 font-bold">Видалити</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
-    <div class="mt-8 bg-white p-6 rounded shadow">
-        <h2 class="text-xl font-bold mb-4">🛒 Нові замовлення</h2>
-        <table class="w-full text-left">
-            <thead>
-                <tr class="bg-gray-100">
-                    <th class="p-2">#</th>
-                    <th class="p-2">Товар</th>
-                    <th class="p-2">Клієнт</th>
-                    <th class="p-2">Телефон</th>
-                    <th class="p-2">Ціна</th>
-                    <th class="p-2">Статус</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for order in orders %}
-                <tr class="border-b border-gray-200 hover:bg-gray-100 transition">
-                    <td class="py-3 px-6 font-bold">#{{ order['id'] }}</td>
-                    <td class="py-3 px-6">{{ order['product_name'] }}</td>
-                    <td class="py-3 px-6">{{ order['customer_name'] }}</td>
-                    <td class="py-3 px-6 font-bold text-indigo-600">{{ order['customer_phone'] }}</td>
-                    <td class="py-3 px-6">{{ order['price'] }} ₴</td>
-                    
-                    <td class="py-3 px-6">
-                        {% if order['status'] == 'New' %}
-                            <div class="flex space-x-2">
-                                <a href="/admin/order/{{ order['id'] }}/Sent" 
-                                   class="bg-green-500 text-white px-2 py-1 rounded text-xs hover:bg-green-600 shadow"
-                                   title="Позначити як відправлене">
-                                   ✅ Відправити
-                                </a>
-                                <a href="/admin/order/{{ order['id'] }}/Canceled" 
-                                   class="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600 shadow"
-                                   title="Скасувати замовлення">
-                                   ❌
-                                </a>
-                            </div>
-                        {% elif order['status'] == 'Sent' %}
-                            <span class="bg-green-100 text-green-800 py-1 px-3 rounded-full text-xs font-bold border border-green-200">
-                                🚀 Відправлено
-                            </span>
-                        {% else %}
-                            <span class="bg-red-100 text-red-800 py-1 px-3 rounded-full text-xs font-bold border border-red-200">
-                                🚫 Скасовано
-                            </span>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% else %}
-                <tr>
-                    <td colspan="6" class="p-4 text-center text-gray-500">Поки немає замовлень</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
     </div>
 </div>
 {% endblock %}

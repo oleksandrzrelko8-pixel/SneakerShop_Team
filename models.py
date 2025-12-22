@@ -107,6 +107,13 @@ def delete_product(product_id):
     conn.commit()
     conn.close()
 
+def update_product(product_id, name, price, image, category):
+    conn = get_db_connection()
+    conn.execute('UPDATE products SET name = ?, price = ?, image = ?, category = ? WHERE id = ?',
+                 (name, price, image, category, product_id))
+    conn.commit()
+    conn.close()
+
 # --- ЗАМОВЛЕННЯ (НОВЕ) ---
 def create_order(product_id, name, phone):
     conn = get_db_connection()
